@@ -1,13 +1,9 @@
-//added ser/deser for Event struct
-use serde::{Deserialize, Serialize};
-
-// added event from msg
 use crate::{
     msg::{
         ExecuteMsg, GatewayMsg, InputRetrieveMsg, InputStoreMsg, InstantiateMsg, QueryMsg,
-        ResponseRetrieveMsg, ResponseStoreMsg, Event
+        ResponseRetrieveMsg, ResponseStoreMsg,
     },
-    state::{State, StorageItem, CONFIG, KV_MAP},
+    state::{State, StorageItem, CONFIG, KV_MAP, Event},
 };
 use anybuf::Anybuf;
 use base64::{engine::general_purpose::STANDARD, Engine};
@@ -111,14 +107,13 @@ fn try_handle(
     // determine which function to call based on the included handle
     let handle = msg.handle.as_str();
     match handle {
-        "store_event" => store_event(deps, env, msg.input_values, msg.task, msg.input_hash),
-        "retrieve_event" => retrieve_event(deps, env, msg.input_values, msg.task, msg.input_hash),
-        "change_event" => change_event(deps, env, msg.input_values, msg.task, msg.input_hash),
+        "store_value" => store_value(deps, env, msg.input_values, msg.task, msg.input_hash),
+        "retrieve_value" => retrieve_value(deps, env, msg.input_values, msg.task, msg.input_hash),
         _ => Err(StdError::generic_err("invalid handle".to_string())),
     }
 }
 
-fn store_event(
+fn store_value(
     deps: DepsMut,
     _env: Env,
     input_values: String,
@@ -130,89 +125,31 @@ fn store_event(
     let input: InputStoreMsg = serde_json_wasm::from_str(&input_values)
         .map_err(|err| StdError::generic_err(err.to_string()))?;
 
+
+let event = Event {
+    location: input.location,
+    date: input.date,
+    description: input.description,
+};
+
+
     // create a task information store
     let storage_item = StorageItem {
-        value: input.value.clone(), //store event struct
-        viewing_key: input.viewing_key.clone(),
+        value: input.value,
+        viewing_key: input.viewing_key,
+        event: event,
     };
 
     let map_contains_kv = KV_MAP.contains(deps.storage, &input.key);
 
     if map_contains_kv {
         return Err(StdError::generic_err(
-            "An event with this key already exists.",
+            "Stored value already exists, not executing again",
         ));
     }
 
     // map task to task info
     KV_MAP.insert(deps.storage, &input.key, &storage_item)?;
-
-    let data = ResponseStoreMsg {
-        key: input.key.to_string(),
-        message: "Event stored successfully.".to_string(),
-    };
-
-    // Serialize the struct to a JSON string1
-    let json_string =
-        serde_json_wasm::to_string(&data).map_err(|err| StdError::generic_err(err.to_string()))?;
-
-    // Encode the JSON string to base64
-    let result = STANDARD.encode(json_string);
-
-    // Get the contract's code hash using the gateway address
-    let gateway_code_hash = get_contract_code_hash(deps, config.gateway_address.to_string())?;
-
-    let callback_msg = GatewayMsg::Output {
-        outputs: PostExecutionMsg {
-            result,
-            task,
-            input_hash,
-        },
-    }
-    .to_cosmos_msg(gateway_code_hash, config.gateway_address.to_string(), None)?;
-
-    Ok(Response::new()
-        .add_message(callback_msg)
-        .add_attribute("status", "stored value with key"))
-}
-
-fn change_event(
-    deps: DepsMut,
-    _env: Env,
-    input_values: String,
-    task: Task,
-    input_hash: Binary,
-) -> StdResult<Response> {
-    let config = CONFIG.load(deps.storage)?;
-
-    let input: InputStoreMsg = serde_json_wasm::from_str(&input_values)
-        .map_err(|err| StdError::generic_err(err.to_string()))?;
-
-    let value = KV_MAP
-        .get(deps.storage, &input.key)
-        .ok_or_else(|| StdError::generic_err("Value for this key not found"))?;
-
-    if value.viewing_key != input.viewing_key {
-        return Err(StdError::generic_err(
-            "Viewing Key incorrect or not found, not allowed to change value",
-        ));
-    }
-
-    // create a task information store
-    let storage_item = StorageItem {
-        value: input.value,
-        viewing_key: input.viewing_key,
-    };
-
-    // Remove old value first
-    KV_MAP
-        .remove(deps.storage, &input.key)
-        .map_err(|err| StdError::generic_err(err.to_string()))?;
-
-    // Insert new value
-    KV_MAP
-        .insert(deps.storage, &input.key, &storage_item)
-        .map_err(|err| StdError::generic_err(err.to_string()))?;
 
     let data = ResponseStoreMsg {
         key: input.key.to_string(),
@@ -243,7 +180,9 @@ fn change_event(
         .add_attribute("status", "stored value with key"))
 }
 
-fn retrieve_event(
+
+
+fn retrieve_value(
     deps: DepsMut,
     _env: Env,
     input_values: String,
@@ -266,7 +205,8 @@ fn retrieve_event(
     let data = ResponseRetrieveMsg {
         key: input.key.to_string(),
         message: "Retrieved value successfully".to_string(),
-        value: value.value, // Include the Event struct,
+        value: value.value,
+        event: value.event
     };
 
     // Serialize the struct to a JSON string1
@@ -331,13 +271,13 @@ fn get_contract_code_hash(deps: DepsMut, contract_address: String) -> StdResult<
 pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
     let response = match msg {
         QueryMsg::RetrieveValue { key, viewing_key } => {
-            retrieve_event_query(deps, key, viewing_key)
+            retrieve_value_query(deps, key, viewing_key)
         }
     };
     pad_query_result(response, BLOCK_SIZE)
 }
 
-fn retrieve_event_query(deps: Deps, key: String, viewing_key: String) -> StdResult<Binary> {
+fn retrieve_value_query(deps: Deps, key: String, viewing_key: String) -> StdResult<Binary> {
     let value = KV_MAP
         .get(deps.storage, &key)
         .ok_or_else(|| StdError::generic_err("Value for this key not found"))?;
@@ -350,6 +290,6 @@ fn retrieve_event_query(deps: Deps, key: String, viewing_key: String) -> StdResu
         key: key.to_string(),
         message: "Retrieved value successfully".to_string(),
         value: value.value,
+        event: value.event
     })
 }
-

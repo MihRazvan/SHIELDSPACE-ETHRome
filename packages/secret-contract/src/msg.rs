@@ -5,19 +5,13 @@ use secret_path::msg::{PostExecutionMsg, PrivContractHandleMsg};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
+use crate::state::Event;
+
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct InstantiateMsg {
     pub gateway_address: Addr,
     pub gateway_hash: String,
     pub gateway_key: Binary,
-}
-
-// added event struct
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
-pub struct Event {
-    pub location: String,
-    pub date: String,
-    pub description: String,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
@@ -26,15 +20,22 @@ pub enum ExecuteMsg {
     Input { message: PrivContractHandleMsg }
 }
 
-//changed value to Event
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct InputStoreMsg {
     // Key of the StorageItem  
     pub key: String,
     // Value of the StorageItem  
-    pub value: Event,
+    pub value: String,
     // ViewingKey of the StorageItem to unlock the value
     pub viewing_key: String,
+
+    pub location: String, 
+
+    pub date: String, 
+
+pub description: String
+
+
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
@@ -53,15 +54,16 @@ pub struct InputRetrieveMsg {
     pub viewing_key: String
 }
 
-//changed value to Event
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct ResponseRetrieveMsg {
     // Key of the StorageItem  
     pub key: String,
     // value of the StorageItem  
-    pub value: Event,
+    pub value: String,
     // response message
-    pub message: String
+    pub message: String,
+
+    pub event: Event
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
