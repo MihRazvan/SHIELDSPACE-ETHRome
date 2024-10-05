@@ -5,7 +5,7 @@ pragma solidity ^0.8.17;
 import "forge-std/Script.sol";
 import "../contracts/ProofVerifier.sol";
 
-contract DeployProofVerifierWithInterface is Script {
+contract DeployProofVerifier is Script {
     function run() external {
         uint256 privateKey = vm.envUint("PRIVATE_KEY");
         vm.startBroadcast(privateKey); // Broadcast with private key
