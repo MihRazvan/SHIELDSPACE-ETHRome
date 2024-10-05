@@ -12,6 +12,7 @@ interface GroupState {
 interface GroupActions {
   createGroup: () => Promise<Group>;
   fetchMyGroups: () => Promise<void>;
+  sendInvites: (groupId: string) => Promise<void>;
 }
 
 const initialState: GroupState = {
@@ -32,15 +33,17 @@ export const useGroupsStore = create<GroupState & GroupActions>((set, get) => ({
     };
     const apiKey = process.env.NEXT_PUBLIC_BANDADA_API_KEY as string;
 
-    console.log(apiKey);
-
     const group = await apiSdk.createGroup(groupCreateDetails, apiKey);
-    console.log(group);
     set({ myGroups: [...get().myGroups, group] });
     return group;
   },
   fetchMyGroups: async () => {
     const groups = await apiSdk.getGroupsByAdminId(get().adminId);
     set({ myGroups: groups });
+  },
+  sendInvites: async (groupId: string) => {
+    const apiKey = process.env.NEXT_PUBLIC_BANDADA_API_KEY as string;
+    const invite = await apiSdk.createInvite(groupId, apiKey);
+    console.log(invite);
   },
 }));
