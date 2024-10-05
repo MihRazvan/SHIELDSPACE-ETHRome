@@ -30,7 +30,7 @@ export default function MyEmailContacts() {
 
   const handleSendEmails = async () => {
     try {
-      await sendEmails();
+      await sendEmails("This is a test email");
       console.log("Emails sent");
     } catch (error) {
       console.error(error);

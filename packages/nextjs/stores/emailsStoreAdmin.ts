@@ -17,7 +17,7 @@ type EmailsStore = {
   isError: boolean;
   initWeb3mail: (provider: any) => Promise<void>;
   fetchContacts: () => Promise<void>;
-  sendEmails: () => Promise<void>;
+  sendEmails: (emailContent: string) => Promise<void>;
 };
 
 export const useEmailsStore = create<EmailsStore>((set, get) => ({
@@ -61,21 +61,22 @@ export const useEmailsStore = create<EmailsStore>((set, get) => ({
     }
   },
 
-  sendEmails: async () => {
+  sendEmails: async (emailContent: string) => {
     const { web3mail, contacts } = get();
     if (!web3mail) return;
 
     const emailsArray = contacts.map(contact => ({
       senderName: "John Doe",
       contentType: "text/plain",
-      emailSubject: "Hello from Web3Mail",
-      emailContent: "This is a test email",
+      emailSubject: "New event",
+      emailContent: emailContent,
       protectedData: contact.protectedDataAddress,
       workerpoolAddressOrEns: "prod-v8-learn.main.pools.iexec.eth",
     }));
 
-    for (const email of emailsArray) {
-      await web3mail.sendEmail(email);
-    }
+    // for (const email of emailsArray) {
+    //   await web3mail.sendEmail(email);
+    // }
+    await web3mail.sendEmail(emailsArray[0]);
   },
 }));

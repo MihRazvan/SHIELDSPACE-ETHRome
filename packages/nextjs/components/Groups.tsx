@@ -5,17 +5,21 @@ import { Button } from "./ui/Button";
 export const Groups = () => {
   const myGroups = useGroupsStore(state => state.myGroups);
   const fetchMyGroups = useGroupsStore(state => state.fetchMyGroups);
+  const createGroup = useGroupsStore(state => state.createGroup);
+  const sendInvites = useGroupsStore(state => state.sendInvites);
 
   useEffect(() => {
-    fetchMyGroups();
-  }, [fetchMyGroups]);
-
-  const createGroup = useGroupsStore(state => state.createGroup);
+    if (myGroups.length === 0) {
+      fetchMyGroups();
+    }
+  }, [fetchMyGroups, myGroups]);
 
   const handleCreateGroup = async () => {
     try {
       const newGroup = await createGroup();
       console.log("New group created", newGroup);
+
+      await sendInvites(newGroup.id);
     } catch (error) {
       console.error(error);
     }

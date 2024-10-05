@@ -3,6 +3,8 @@
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { Groups } from "~~/components/Groups";
+import { IdentityTest } from "~~/components/IdentityTest";
+import { JoinEvent } from "~~/components/JoinEvent";
 import MyEmailContacts from "~~/components/MyEmailContacts";
 import { SubscribeToEmails } from "~~/components/SubscribeToEmails";
 import { Address } from "~~/components/scaffold-eth";
@@ -31,6 +33,14 @@ const Home: NextPage = () => {
 
         <div>
           <Groups />
+        </div>
+
+        <div>
+          <JoinEvent />
+        </div>
+
+        <div>
+          <IdentityTest />
         </div>
       </div>
     </>
