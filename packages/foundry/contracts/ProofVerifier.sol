@@ -10,14 +10,6 @@ contract ProofVerifier {
     event ProofVerified(bool success);
 
     /**
-     * @notice Sets the address of the deployed Verifier contract.
-     * @param _verifierAddress The address of the Verifier contract.
-     */
-    constructor(address _verifierAddress) {
-        verifier = IVerifier(_verifierAddress);
-    }
-
-    /**
      * @notice Verifies a Zero-Knowledge Proof by delegating to the Verifier contract.
      * @param _proof The proof data in bytes.
      * @param _publicInputs The public inputs associated with the proof.

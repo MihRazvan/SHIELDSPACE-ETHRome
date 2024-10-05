@@ -3,8 +3,7 @@
 pragma solidity ^0.8.17;
 
 import "forge-std/Script.sol";
-import "../src/IVerifier.sol";
-import "../src/ProofVerifier.sol";
+import "../contracts/ProofVerifier.sol";
 
 contract DeployProofVerifierWithInterface is Script {
     function run() external {
