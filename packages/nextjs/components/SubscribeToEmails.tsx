@@ -10,7 +10,7 @@ export const SubscribeToEmails = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await subscribeToEmails(email);
+      await subscribeToEmails(email, "0x0000000000000000000000000000000000000000");
       setEmail("");
     } catch (error) {
       console.error(error);

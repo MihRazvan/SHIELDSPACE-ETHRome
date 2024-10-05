@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300;400&display=swap");
+
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
@@ -9,12 +11,15 @@
 
 body {
   min-height: 100vh;
+  font-family: "Darker Grotesque", sans-serif;
 }
 
 h1,
 h2,
 h3,
 h4 {
+  font-family: "Darker Grotesque", sans-serif;
+  font-weight: 400;
   margin-bottom: 0.5rem;
   line-height: 1;
 }

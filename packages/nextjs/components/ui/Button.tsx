@@ -10,7 +10,7 @@ export const Button = ({
 }) => {
   return (
     <button
-      className="btn btn-outline rounded-sm"
+      className="rounded-full bg-[#D9D9D9] text-2xl border-none drop-shadow-none px-4 py-2"
       onClick={onClick}
       type={type} // Add type attribute to button
     >
