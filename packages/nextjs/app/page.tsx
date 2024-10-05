@@ -2,6 +2,7 @@
 
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
+import { Groups } from "~~/components/Groups";
 import MyEmailContacts from "~~/components/MyEmailContacts";
 import { SubscribeToEmails } from "~~/components/SubscribeToEmails";
 import { Address } from "~~/components/scaffold-eth";
@@ -26,6 +27,10 @@ const Home: NextPage = () => {
 
         <div>
           <MyEmailContacts />
+        </div>
+
+        <div>
+          <Groups />
         </div>
       </div>
     </>

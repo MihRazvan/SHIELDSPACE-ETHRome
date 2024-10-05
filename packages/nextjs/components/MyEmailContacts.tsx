@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { useEffect, useState } from "react";
+import { Button } from "./ui/Button";
 import { Address, IExecWeb3mail, TimeStamp } from "@iexec/web3mail";
 // import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "wagmi";
@@ -152,9 +153,7 @@ export default function MyEmailContacts() {
 
       {isSuccess && myContacts!.length > 0 && (
         <>
-          <button className="btn btn-outline rounded-sm" onClick={handleSendEmails}>
-            Send emails
-          </button>
+          <Button onClick={handleSendEmails}>Send emails</Button>
           <div
             className="mt-10 grid w-full gap-x-3 px-2"
             style={{

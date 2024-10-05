@@ -1,4 +1,5 @@
 import { FormEvent, useCallback, useEffect, useState } from "react";
+import { Button } from "./ui/Button";
 import { IExecDataProtector, IExecDataProtectorCore } from "@iexec/dataprotector";
 import { IExecWeb3mail } from "@iexec/web3mail";
 import { useAccount } from "wagmi";
@@ -88,9 +89,7 @@ export const SubscribeToEmails = () => {
         placeholder="Enter your email"
         required
       />
-      <button className="btn btn-outline rounded-sm" type="submit">
-        Subscribe
-      </button>
+      <Button type="submit">Subscribe</Button>
     </form>
   );
 };
