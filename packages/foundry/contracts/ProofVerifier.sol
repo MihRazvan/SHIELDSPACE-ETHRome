@@ -5,12 +5,20 @@ pragma solidity ^0.8.17;
 import "./IVerifier.sol";
 
 contract ProofVerifier {
-    using IVerifier for bytes;
+    IVerifier public verifier;
 
     event ProofVerified(bool success);
 
     /**
-     * @notice Verifies a Zero-Knowledge Proof.
+     * @notice Sets the address of the deployed Verifier contract.
+     * @param _verifierAddress The address of the Verifier contract.
+     */
+    constructor(address _verifierAddress) {
+        verifier = IVerifier(_verifierAddress);
+    }
+
+    /**
+     * @notice Verifies a Zero-Knowledge Proof by delegating to the Verifier contract.
      * @param _proof The proof data in bytes.
      * @param _publicInputs The public inputs associated with the proof.
      * @return success Boolean indicating if the proof is valid.
@@ -19,7 +27,7 @@ contract ProofVerifier {
         bytes calldata _proof,
         bytes32[] calldata _publicInputs
     ) external returns (bool success) {
-        bool result = UltraVerificationKey.verify(_proof, _publicInputs);
+        bool result = verifier.verify(_proof, _publicInputs);
         emit ProofVerified(result);
         return result;
     }
