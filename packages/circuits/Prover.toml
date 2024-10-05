@@ -1,0 +1,49 @@
+expected_eth_address = [
+    222,
+    173,
+    190,
+    222,
+    218,
+    189,
+    222,
+    218,
+    189,
+    222,
+    218,
+    189,
+    222,
+    218,
+    189,
+    222,
+    218,
+    189,
+    222,
+    173,
+]
+
+# Public Input: The Ethereum address to verify (as an array of integers)
+eth_address = [
+    222,
+    173,
+    190,
+    222,
+    218,
+    189,
+    222,
+    218,
+    189,
+    222,
+    218,
+    189,
+    222,
+    218,
+    189,
+    222,
+    218,
+    189,
+    222,
+    173,
+]
+
+# Private Input: Gender hash, should be 1 to represent 'female'
+gender_hash = "1"
