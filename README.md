@@ -20,6 +20,18 @@ Check out our video demo - [here]().
 
 ![techstack-userflow](https://github.com/user-attachments/assets/e29a3761-cc65-4ce2-814b-c49232d4bc6f)
 
+## Smart contract deployments
+
+Sepolia
+
+Aurora testnet
+
+Scroll Sepolia
+
+Optimism Sepolia
+
+Base Sepolia
+
 ## Hackathon bounties
 
 ### ETHRome (Privacy Track)
