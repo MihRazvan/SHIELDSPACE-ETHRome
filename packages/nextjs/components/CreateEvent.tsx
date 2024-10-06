@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ethers } from "ethers";
 
 export const CreateEvent = () => {
   const [title, setTitle] = useState("");
@@ -8,6 +9,66 @@ export const CreateEvent = () => {
   const [description, setDescription] = useState("");
   const [gender, setGender] = useState("other");
   const [ageRestricted, setAgeRestricted] = useState(false);
+  const [buttonText, setButtonText] = useState("Encrypt Data"); // Initial button text
+  const [isEncrypting, setIsEncrypting] = useState(false); // To disable button during encryption
+
+  const handleEncrypt = async () => {
+    if (!window.ethereum) {
+      console.log("MetaMask is not installed");
+      return;
+    }
+
+    // Disable button during encryption process
+    setIsEncrypting(true);
+
+    // Explicitly set the Sepolia provider using the correct chain ID
+    const provider = new ethers.providers.Web3Provider(window.ethereum, {
+      name: "sepolia",
+      chainId: 11155111, // Sepolia Testnet chain ID
+    });
+    await provider.send("eth_requestAccounts", []);
+    const signer = provider.getSigner();
+
+    try {
+      const recipientAddress = "0x33A5608b3D641114f4d07576F2a6552baec9baA7"; // Replace with a valid Sepolia testnet address
+
+      // Generate fake data to simulate encryption
+      const eventData = {
+        title,
+        password,
+        dateTime,
+        location,
+        description,
+        gender,
+        ageRestricted,
+      };
+      const fakeEncryptedData = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(JSON.stringify(eventData)));
+      console.log("Fake Encrypted Data:", fakeEncryptedData);
+
+      // Prepare the transaction
+      const tx = {
+        to: recipientAddress,
+        value: ethers.utils.parseEther("0.001"), // Sending 0.001 Sepolia ETH
+        gasLimit: 21000, // Minimum gas limit for a simple transfer
+      };
+
+      // Sign and send the transaction
+      const txResponse = await signer.sendTransaction(tx);
+      console.log("Transaction Hash:", txResponse.hash);
+
+      // Wait for the transaction to be mined
+      const receipt = await txResponse.wait();
+      console.log("Transaction confirmed:", receipt);
+
+      // Change button text to "Create Event" after transaction is confirmed
+      setButtonText("Create Event");
+    } catch (error) {
+      console.error("Error encrypting or submitting data:", error);
+    } finally {
+      // Re-enable the button after the transaction
+      setIsEncrypting(false);
+    }
+  };
 
   return (
     <div className="p-6 mt-10 mx-auto bg-white rounded-lg shadow-md max-w-md">
@@ -108,16 +169,15 @@ export const CreateEvent = () => {
           className="w-full p-3 border rounded-lg h-32 mt-6"
         />
 
-        <div className="flex justify-between">
+        {/* Button Section */}
+        <div className="flex justify-center mt-6">
           <button
             type="button"
-            className="px-4 py-2 bg-gray-300 text-black rounded-lg"
-            onClick={() => console.log("Encrypt button clicked")}
+            className="px-6 py-3 bg-black text-white rounded-lg"
+            onClick={handleEncrypt}
+            disabled={isEncrypting}
           >
-            Encrypt
-          </button>
-          <button type="submit" className="px-4 py-2 bg-black text-white rounded-lg">
-            Submit
+            {buttonText}
           </button>
         </div>
       </form>
