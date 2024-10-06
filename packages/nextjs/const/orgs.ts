@@ -15,6 +15,16 @@ export const ORGS = [
     address: "0xF061ed1a3EcA9c57cdf7514Cb87B0cF0f8A82832",
   },
   {
+    name: "The CSPC",
+    description: "",
+    address: "0xF061ed1a3EcA9c57cdf7514Cb87B0cF0f8A82832",
+  },
+  {
+    name: "AA.org",
+    description: "",
+    address: "0xF061ed1a3EcA9c57cdf7514Cb87B0cF0f8A82832",
+  },
+  {
     name: "UkraineDAO",
     description: "",
     address: "0xF061ed1a3EcA9c57cdf7514Cb87B0cF0f8A82834",
