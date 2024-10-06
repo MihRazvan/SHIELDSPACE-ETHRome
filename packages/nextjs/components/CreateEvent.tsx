@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { ethers } from "ethers";
+import { handleSubmit } from "../functions/submit";
+
+// Import handleSubmit from your submit.js
 
 export const CreateEvent = () => {
   const [title, setTitle] = useState("");
@@ -7,58 +9,28 @@ export const CreateEvent = () => {
   const [dateTime, setDateTime] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
-  const [gender, setGender] = useState("other");
-  const [ageRestricted, setAgeRestricted] = useState(false);
-  const [buttonText, setButtonText] = useState("Encrypt Data"); // Initial button text
-  const [isEncrypting, setIsEncrypting] = useState(false); // To disable button during encryption
+  const [buttonText, setButtonText] = useState("Encrypt Data");
+  const [isEncrypting, setIsEncrypting] = useState(false);
 
   const handleEncrypt = async () => {
-    if (!window.ethereum) {
-      console.log("MetaMask is not installed");
-      return;
-    }
-
     // Disable button during encryption process
     setIsEncrypting(true);
 
-    // Explicitly set the Sepolia provider using the correct chain ID
-    const provider = new ethers.providers.Web3Provider(window.ethereum, {
-      name: "sepolia",
-      chainId: 11155111, // Sepolia Testnet chain ID
-    });
-    await provider.send("eth_requestAccounts", []);
-    const signer = provider.getSigner();
-
     try {
-      const recipientAddress = "0x33A5608b3D641114f4d07576F2a6552baec9baA7"; // Replace with a valid Sepolia testnet address
+      // Call the handleSubmit function to encrypt and submit the event data
+      const key = "unique_event_key"; // Generate or assign a unique key for the event
+      const viewingKey = "example_viewing_key"; // Replace with actual viewing key logic
 
-      // Generate fake data to simulate encryption
       const eventData = {
-        title,
-        password,
-        dateTime,
         location,
+        dateTime,
         description,
-        gender,
-        ageRestricted,
-      };
-      const fakeEncryptedData = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(JSON.stringify(eventData)));
-      console.log("Fake Encrypted Data:", fakeEncryptedData);
-
-      // Prepare the transaction
-      const tx = {
-        to: recipientAddress,
-        value: ethers.utils.parseEther("0.001"), // Sending 0.001 Sepolia ETH
-        gasLimit: 21000, // Minimum gas limit for a simple transfer
       };
 
-      // Sign and send the transaction
-      const txResponse = await signer.sendTransaction(tx);
-      console.log("Transaction Hash:", txResponse.hash);
+      // Encrypt and submit data using handleSubmit from submit.js
+      await handleSubmit(null, key, JSON.stringify(eventData), viewingKey);
 
-      // Wait for the transaction to be mined
-      const receipt = await txResponse.wait();
-      console.log("Transaction confirmed:", receipt);
+      console.log("Event data submitted successfully");
 
       // Change button text to "Create Event" after transaction is confirmed
       setButtonText("Create Event");
@@ -105,63 +77,6 @@ export const CreateEvent = () => {
           />
         </div>
 
-        {/* Event Restrictions Section */}
-        <div className="mt-6">
-          <h3 className="text-xl font-semibold mb-2">Event Restrictions</h3>
-
-          {/* Gender Restriction */}
-          <div className="flex items-center justify-between">
-            <label className="text-gray-700">Gender Restriction</label>
-            <div className="space-x-2">
-              <label className="text-gray-700">
-                <input
-                  type="radio"
-                  name="gender"
-                  value="female"
-                  checked={gender === "female"}
-                  onChange={() => setGender("female")}
-                />{" "}
-                Female
-              </label>
-              <label className="text-gray-700">
-                <input
-                  type="radio"
-                  name="gender"
-                  value="male"
-                  checked={gender === "male"}
-                  onChange={() => setGender("male")}
-                />{" "}
-                Male
-              </label>
-              <label className="text-gray-700">
-                <input
-                  type="radio"
-                  name="gender"
-                  value="other"
-                  checked={gender === "other"}
-                  onChange={() => setGender("other")}
-                />{" "}
-                Other
-              </label>
-            </div>
-          </div>
-
-          {/* Age Restriction */}
-          <div className="flex items-center justify-between mt-4">
-            <label className="text-gray-700">Age Restriction</label>
-            <div className="flex items-center">
-              <label className="text-gray-700 mr-2">18+</label>
-              <input
-                type="checkbox"
-                checked={ageRestricted}
-                onChange={() => setAgeRestricted(!ageRestricted)}
-                className="w-5 h-5"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Event Description */}
         <textarea
           placeholder="Description"
           value={description}
@@ -169,7 +84,6 @@ export const CreateEvent = () => {
           className="w-full p-3 border rounded-lg h-32 mt-6"
         />
 
-        {/* Button Section */}
         <div className="flex justify-center mt-6">
           <button
             type="button"
