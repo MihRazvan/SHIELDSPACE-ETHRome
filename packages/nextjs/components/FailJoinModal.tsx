@@ -18,7 +18,7 @@ export const FailJoinModal = ({ children }: { children: React.ReactNode }) => {
       <div className="modal-box flex flex-col text-white items-center justify-center rounded-none bg-[#681374] text-center">
         <h3 className="font-bold text-xl">Declined!</h3>
         <Image src="/images/fail.png" alt="Declined" width={100} height={100} />
-        <div className="text-xl text-bold">You are now verified and can privately confirm your attendance:</div>
+        <div className="text-xl text-bold">You are not elegible to join:</div>
         {children}
         <div className="modal-action">
           <form method="dialog" className="text-black">
