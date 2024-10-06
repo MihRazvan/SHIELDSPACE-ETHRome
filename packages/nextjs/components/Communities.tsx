@@ -5,7 +5,7 @@ import { ORGS } from "~~/const/orgs";
 import useEmailsUser from "~~/hooks/useEmailsUser";
 
 export const Communities = () => {
-  const [email, setEmail] = useState("ilge.ustun@gmail.com");
+  const [email, setEmail] = useState("");
   const [selectedOrgs, setSelectedOrgs] = useState<string[]>([]);
   const { subscribeToEmails } = useEmailsUser();
 
