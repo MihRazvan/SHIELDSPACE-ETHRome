@@ -24,7 +24,7 @@ Check out our video demo - [here]().
 
 ### ETHRome (Privacy Track)
 
-*add description of use here*
+Shield Space directly addresses critical privacy and security challenges in organizing sensitive events. Domestic violence survivors, among other vulnerable groups, require protection from unwanted exposure, harassment, and data breaches. We showcase how privacy-first design can be applied to real-world issues, highlighting the importance of protecting user data in sensitive contexts.
 
 ### iExec (Web3Mail)
 
@@ -54,4 +54,3 @@ We utilized the whole dapp toolkit, namely: Foundry, Wagmi, Viem, NextJS, Rainbo
 ### W3PN (Best creation of a new Web3Privacy project)
 
 We utilized the Privacy Builder Pack for the initial exploration and inspiration behind existing privacy-first projects. Tips & Tricks from serial hackers helped us narrow down the focus and build MVP efficiently. We believe that Shield Space can be integrated and further developed under the umbrela of Web3Privacy Now community to enable sensitive communities to set up private, and confidential events.
-*add description of use here*
