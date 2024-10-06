@@ -9,13 +9,14 @@ import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth/Rainbo
 import { EVENTS } from "~~/const/events";
 
 export default function Event({ params }: { params: { event: string } }) {
-  const event = EVENTS[params.event as keyof typeof EVENTS];
+  let event = EVENTS[params.event as keyof typeof EVENTS];
   const [inviteCode, setInviteCode] = useState("");
   const [title, setTitle] = useState("");
   const [password, setPassword] = useState("");
 
   if (!event) {
-    return <div>Event not found</div>;
+    // return <div>Event not found</div>;
+    event = EVENTS["72244305879078692190929763200798"];
   }
 
   const handleJoin = async (e: React.FormEvent<HTMLFormElement>) => {

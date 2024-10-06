@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
+import { useEmailsStore } from "~~/stores/emailsStoreAdmin";
+import { useGroupsStore } from "~~/stores/groupsStore";
 
 export const CreateEvent = () => {
   const [title, setTitle] = useState("");
@@ -9,10 +12,47 @@ export const CreateEvent = () => {
   const [gender, setGender] = useState("other");
   const [ageRestricted, setAgeRestricted] = useState(false);
 
+  const account = useAccount();
+  const web3mail = useEmailsStore(state => state.web3mail);
+  const createGroup = useGroupsStore(state => state.createGroup);
+  const sendInvites = useGroupsStore(state => state.sendInvites);
+  const initWeb3mail = useEmailsStore(state => state.initWeb3mail);
+  const fetchContacts = useEmailsStore(state => state.fetchContacts);
+  const contacts = useEmailsStore(state => state.contacts);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log("initWeb3mail");
+      if (account?.status !== "connected") return;
+      if (!web3mail && account?.status === "connected") {
+        const provider = await account.connector?.getProvider();
+        console.log("provider", provider);
+        await initWeb3mail(provider);
+      }
+      await fetchContacts();
+    };
+    fetchData();
+  }, [web3mail, fetchContacts, account.connector, initWeb3mail, account?.status]);
+
+  console.log("web3mail", web3mail);
+  console.log("contacts", contacts);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // TODO: add secret network part
+    try {
+      const newGroup = await createGroup({ title, description });
+      console.log("New group created", newGroup);
+
+      await sendInvites(newGroup.id, "Safe Link");
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className="p-6 mt-10 mx-auto bg-white rounded-lg shadow-md max-w-md">
       <h2 className="text-2xl font-bold text-center mb-4">Create an event</h2>
-      <form className="space-y-4">
+      <form className="space-y-4" onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="Title"

@@ -16,8 +16,9 @@ type EmailsStore = {
   isSuccess: boolean;
   isError: boolean;
   initWeb3mail: (provider: any) => Promise<void>;
-  fetchContacts: () => Promise<void>;
+  fetchContacts: () => Promise<OneEmailContact[] | undefined>;
   sendEmails: (emailContent: string) => Promise<void>;
+  sendInvite: (emailContent: string, org: string, protectedDataAddress: string) => Promise<void>;
 };
 
 export const useEmailsStore = create<EmailsStore>((set, get) => ({
@@ -28,12 +29,14 @@ export const useEmailsStore = create<EmailsStore>((set, get) => ({
   isError: false,
 
   initWeb3mail: async (provider: any) => {
+    console.log("initWeb3mail");
     const web3mail = new IExecWeb3mail(provider);
     set({ web3mail });
   },
 
   fetchContacts: async () => {
     const { web3mail } = get();
+    console.log("fetchContacts", web3mail);
     if (!web3mail) return;
 
     set({ isLoading: true, isError: false });
@@ -53,6 +56,7 @@ export const useEmailsStore = create<EmailsStore>((set, get) => ({
         }));
 
       set({ contacts: processedContacts, isSuccess: true });
+      return processedContacts;
     } catch (error) {
       console.error("Error fetching contacts:", error);
       set({ isError: true });
@@ -78,5 +82,20 @@ export const useEmailsStore = create<EmailsStore>((set, get) => ({
     //   await web3mail.sendEmail(email);
     // }
     await web3mail.sendEmail(emailsArray[0]);
+  },
+
+  sendInvite: async (emailContent: string, org: string, protectedDataAddress: string) => {
+    const { web3mail } = get();
+    if (!web3mail) return;
+
+    const email = {
+      senderName: org,
+      contentType: "text/plain",
+      emailSubject: "Event invite",
+      emailContent: emailContent,
+      protectedData: protectedDataAddress,
+      workerpoolAddressOrEns: "prod-v8-learn.main.pools.iexec.eth",
+    };
+    await web3mail.sendEmail(email);
   },
 }));
