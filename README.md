@@ -4,7 +4,7 @@
 
 **Shield Space** is a secure platform designed for organizing private, privacy-preserving events. It empowers event organizers to host safe, confidential gatherings without exposing information about attendees or event details. Especially designed for sensitive communities that prioritize security, such as domestic violence survivors [Our use-case (**SafeLink**)], Shield Space ensures that personal data remains protected, allowing participants to connect and engage without fear of online harassment or unwanted exposure.
 
-Check out our video demo - [here](https://drive.google.com/file/d/1_MTaGJk37GjKS18jttlCEQRx6gbLp0zV/view?usp=sharing).
+Check out our video demo - [here](https://youtu.be/oGltIaEV_Cc).
 
 ⚙️ **Built using:** iExec, Secret Network, Bandada, Aztec, Scaffold-ETH2.
 
