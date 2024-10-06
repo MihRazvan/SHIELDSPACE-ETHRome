@@ -14,10 +14,10 @@ const Home: NextPage = () => {
       className="w-full h-full bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: "url('/images/background.png')" }}
     >
-      <div className="absolute top-0 left-0">
+      <div className="absolute top-5 left-14">
         <RainbowKitCustomConnectButton />
       </div>
-      <div className="flex flex-col w-full max-w-3xl mx-auto min-h-screen bg-[#FDFEFF]">
+      <div className="flex flex-col w-full max-w-3xl mx-auto min-h-screen bg-[#FDFEFF] pt-10">
         <Hero />
         <Communities />
         <div className="text-center mb-2">Built at ETHRome 2024</div>

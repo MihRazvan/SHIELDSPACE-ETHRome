@@ -11,7 +11,7 @@ const Home: NextPage = () => {
       className="w-full h-full bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: "url('/images/bg-create-event.png')" }}
     >
-      <div className="absolute top-5 left-5">
+      <div className="absolute top-5 left-14">
         <RainbowKitCustomConnectButton />
       </div>
       <div className="flex flex-col w-full max-w-3xl mx-auto min-h-screen bg-[#FDFEFF] justify-between">
