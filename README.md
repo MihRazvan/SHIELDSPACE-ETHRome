@@ -24,33 +24,40 @@ Check out our video demo - [here]().
 
 ### ETHRome (Privacy Track)
 
-Shield Space directly addresses critical privacy and security challenges in organizing sensitive events. Domestic violence survivors, among other vulnerable groups, require protection from unwanted exposure, harassment, and data breaches. We showcase how privacy-first design can be applied to real-world issues, highlighting the importance of protecting user data in sensitive contexts.
+Shield Space directly addresses critical privacy and security challenges in organizing sensitive events. Domestic violence survivors, among other sensitive groups, require protection from unwanted exposure, harassment, and data breaches. We showcase how privacy-first design can be applied to real-world issues, highlighting the importance of protecting user data in sensitive contexts.
 
 ### iExec (Web3Mail)
 
-We use Web3Mail to protect email data - revealing only public addresses instead.
-*add description of use here*
+We use **Web3Mail** to protect email data - revealing only public addresses instead.
+
+We leverage iExec's **Web3Mail** to enhance privacy in event communications, especially for sensitive communities. Email communications are sent using Ethereum wallet addresses, ensuring that no private email information is shared unless explicitly authorized by the user. This system allows attendees to control who (and how many times) can send them emails, providing a layer of security and privacy essential for sensitive contexts.
 
 ### Secret Network (Pool Prize)
 
-We make use of SecretPaths to encrypt the event details until an attendee is verified, therefore eligible to view the details.
-*add description of use here*
+Shield Space uses **SecretPaths**, an encryption feature within Secret Network, to protect sensitive event details until a participant is verified.
+
+Through Secret Network's smart contracts, event details like locations, dates, and attendee lists are encrypted by default. Only verified individuals, who meet specific criteria such as identity confirmation, can decrypt and access event information. This setup ensures attendees' privacy while preventing unauthorized access to sensitive data.
 
 ### Bandada (Pool Prize)
 
-We utlize privacy preserving groups.
-*add description of use here*
+We utilize Bandada to ensure privacy-preserving group management for event attendees and organizers.
+
+To attend the event, participants must prove membership in the group without revealing their Ethereum address. This is achieved through the generation of a **Semaphore ID**. This system adds an extra layer of privacy, ensuring sensitive details remain secure while preventing sybil attacks.
 
 ### Aztec
 
-We make use of Noir curcuits to establish proving backend for privacy preserving verification of attendees sensitive data.
-*add description of use here*
+Shield Space leverages Aztec's **Noir** circuits framework, to establish a secure backend for verifying sensitive attendee data without exposing it to event organizers or external parties.
+
+We ensure that only the minimal necessary information (like gender or specific ID details) are shared, allowing for event eligibility verification while keeping other personal details encrypted and private. Meaning all transactions and interactions happen with full confidentiality, securing the identities and personal details of survivors while ensuring compliance with the event requirements.
 
 ### Build Guild (Scaffold-ETH2)
 
-We utilized the whole dapp toolkit, namely: Foundry, Wagmi, Viem, NextJS, RainbowKit and DaisyUI.
-*add description of use here*
+We utilize Build Guild's **Scaffold-ETH2** toolkit to create a secure platform for organizing privacy-preserving events. 
+
+**Foundry** is used for developing and testing smart contracts, ensuring security and functionality. **Wagmi** manages wallet connections and blockchain interactions, streamlining web3 functionalities. **Viem** facilitates efficient, type-safe interactions with Ethereum nodes, enhancing responsiveness. **Next.js** serves as the frontend framework, offering server-side rendering for better performance and secure API routes. **RainbowKit** provides a user-friendly wallet connection interface, simplifying user onboarding. And **DaisyUI** is used for creating a modern, responsive design with ready-made UI components.
+
+By integrating these tools, we ensures a secure, efficient, and user-friendly experience.
 
 ### W3PN (Best creation of a new Web3Privacy project)
 
-We utilized the Privacy Builder Pack for the initial exploration and inspiration behind existing privacy-first projects. Tips & Tricks from serial hackers helped us narrow down the focus and build MVP efficiently. We believe that Shield Space can be integrated and further developed under the umbrela of Web3Privacy Now community to enable sensitive communities to set up private, and confidential events.
+We utilized the **Privacy Builder Pack** for the initial exploration and inspiration behind existing privacy-first projects. Tips & Tricks from serial hackers helped us narrow down the focus and build MVP efficiently. We believe that Shield Space can be integrated and further developed under the umbrela of Web3Privacy Now community to enable sensitive communities to set up private, and confidential events.
