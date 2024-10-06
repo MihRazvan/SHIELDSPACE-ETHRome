@@ -83,7 +83,7 @@ export const CreateEvent = () => {
   return (
     <div className="p-6 mt-10 mx-auto bg-white rounded-lg shadow-md max-w-md">
       <h2 className="text-2xl font-bold text-center mb-4">Create an event</h2>
-      <form className="space-y-4">
+      <form className="space-y-4 mb-10">
         <input
           type="text"
           placeholder="Title"

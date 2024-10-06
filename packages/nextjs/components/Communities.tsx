@@ -54,7 +54,7 @@ export const Communities = () => {
             </div>
           ))}
         </div>
-        <form className="flex gap-2" onSubmit={handleSignIn}>
+        <form className="flex gap-2 mb-10" onSubmit={handleSignIn}>
           <input
             className="input border-none rounded-full bg-[#D9D9D9] text-2xl leading-8 focus:outline-none focus:ring-0"
             type="email"
