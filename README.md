@@ -22,15 +22,13 @@ Check out our video demo - [here]().
 
 ## Smart contract deployments
 
-Sepolia
+Proof verifier for circuits on noir:
 
-Aurora testnet
+https://sepolia.etherscan.io/address/0x7e9d44122e0d0f44cf7647c8998c9f4c9c5e6939#writeContract
 
-Scroll Sepolia
+Secret contract address:
 
-Optimism Sepolia
-
-Base Sepolia
+secret1qjpf0ceu7utpyqdsa3hgtycc77d03x0s2guazj
 
 ## Hackathon bounties
 
