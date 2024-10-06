@@ -28,24 +28,30 @@ ADD TECH STACK / USER FLOW HERE
 
 ### iExec (Web3Mail)
 
+We use Web3Mail to protect email data - revealing only public addresses instead.
 *add description of use here*
 
 ### Secret Network (Pool Prize)
 
+We make use of SecretPaths to encrypt the event details until an attendee is verified, therefore eligible to view the details.
 *add description of use here*
 
 ### Bandada (Pool Prize)
 
+We utlize privacy preserving groups.
 *add description of use here*
 
 ### Aztec
 
+We make use of Noir curcuits to establish proving backend for privacy preserving verification of attendees sensitive data.
 *add description of use here*
 
 ### Build Guild (Scaffold-ETH2)
 
+We utilized the whole dapp toolkit, namely: Foundry, Wagmi, Viem, NextJS, RainbowKit and DaisyUI.
 *add description of use here*
 
 ### W3PN (Best creation of a new Web3Privacy project)
 
+We utilized the Privacy Builder Pack for the initial exploration and inspiration behind existing privacy-first projects. Tips & Tricks from serial hackers helped us narrow down the focus and build MVP efficiently. We believe that Shield Space can be integrated and further developed under the umbrela of Web3Privacy Now community to enable sensitive communities to set up private, and confidential events.
 *add description of use here*
