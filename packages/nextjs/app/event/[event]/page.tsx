@@ -28,6 +28,7 @@ const EventPage = ({ params }: { params: { event: string } }) => {
 
   const handleDecrypt = async () => {
     const identityString = localStorage.getItem("i");
+    console.log("identityString", identityString);
 
     if (!identityString) {
       // router.push("/")
@@ -74,6 +75,13 @@ const EventPage = ({ params }: { params: { event: string } }) => {
       >
         <Image src={event.img} alt="SafeLink" width={200} height={100} />
         <div className={`text-center mb-2 text-xl text-[${event.color}]`}>{event.description}</div>
+        <div className="text-left w-full p-4">
+          {event.text.map((text, index) => (
+            <div key={index} className="text-left mb-2 text-xl text-[${event.color}]">
+              {text}
+            </div>
+          ))}
+        </div>
       </div>
       {modalIsOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20">
