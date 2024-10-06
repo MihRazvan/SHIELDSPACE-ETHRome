@@ -18,7 +18,7 @@ Check out our video demo - [here]().
 
 🛡️ **Harassment Prevention:** Secure communication channels/groups ensure that interactions between organizers and survivors are free from online harassment risks using Bandada groups adding a layer of privacy with a strong anti-sybil system.
 
-ADD TECH STACK / USER FLOW HERE
+![MacBook Pro 14_ - 23](https://github.com/user-attachments/assets/6169bc15-1c23-4fdc-bd78-9cc5b337f839)
 
 ## Hackathon bounties
 
