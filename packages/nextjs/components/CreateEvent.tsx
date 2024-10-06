@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ethers } from "ethers";
-import { useSwitchChain } from "wagmi";
+import { useAccount, useSwitchChain } from "wagmi";
 import { useChainId } from "wagmi";
+import { useEmailsStore } from "~~/stores/emailsStoreAdmin";
+import { useGroupsStore } from "~~/stores/groupsStore";
 
 export const CreateEvent = () => {
   const [title, setTitle] = useState("");
@@ -14,9 +17,33 @@ export const CreateEvent = () => {
   const [buttonText, setButtonText] = useState("Encrypt Data"); // Initial button text
   const [isEncrypting, setIsEncrypting] = useState(false); // To disable button during encryption
 
+  const router = useRouter();
+
+  const account = useAccount();
+  const web3mail = useEmailsStore(state => state.web3mail);
+  const createGroup = useGroupsStore(state => state.createGroup);
+  const sendInvites = useGroupsStore(state => state.sendInvites);
+  const initWeb3mail = useEmailsStore(state => state.initWeb3mail);
+  const fetchContacts = useEmailsStore(state => state.fetchContacts);
+  // const contacts = useEmailsStore(state => state.contacts);
+
   const { switchChain } = useSwitchChain();
 
   const chainId = useChainId();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log("initWeb3mail");
+      if (account?.status !== "connected") return;
+      if (!web3mail && account?.status === "connected") {
+        const provider = await account.connector?.getProvider();
+        console.log("provider", provider);
+        await initWeb3mail(provider);
+      }
+      await fetchContacts();
+    };
+    fetchData();
+  }, [web3mail, fetchContacts, account.connector, initWeb3mail, account?.status]);
 
   const handleEncrypt = async () => {
     if (!window.ethereum) {
@@ -77,6 +104,26 @@ export const CreateEvent = () => {
     } finally {
       // Re-enable the button after the transaction
       setIsEncrypting(false);
+    }
+  };
+
+  const handleCreateEvent = async (e: any) => {
+    console.log("Creating event");
+    e.preventDefault();
+    if (chainId !== 134) {
+      switchChain({ chainId: 134 } as any);
+    }
+    // TODO: add secret network part
+    try {
+      const newGroup = await createGroup({ title, description });
+      console.log("New group created", newGroup);
+      const res = await sendInvites(newGroup.id, "Safe Link");
+      console.log("res", res);
+      if (res) {
+        router.push(`/my-events`);
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -184,7 +231,7 @@ export const CreateEvent = () => {
           <button
             type="button"
             className="px-6 py-3 bg-black text-white rounded-lg"
-            onClick={handleEncrypt}
+            onClick={buttonText === "Encrypt Data" ? handleEncrypt : handleCreateEvent}
             disabled={isEncrypting}
           >
             {buttonText}

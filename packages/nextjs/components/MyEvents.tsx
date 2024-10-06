@@ -15,8 +15,8 @@ export const MyEvents = () => {
     <div className="flex flex-col gap-4 items-center justify-center">
       <div className="p-5 min-w-full sm:min-w-[400px] text-xl">
         <h1 className="text-3xl">My Events</h1>
-        {myGroups.map(group => (
-          <div className="flex gap-2 justify-between" key={group.id}>
+        {myGroups.map((group, index) => (
+          <div className="flex gap-2 justify-between" key={`${group.id}-${index}`}>
             <div>{group.name}</div>
             <div>{group.members.length} members</div>
           </div>

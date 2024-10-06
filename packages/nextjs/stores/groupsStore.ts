@@ -13,7 +13,7 @@ interface GroupState {
 interface GroupActions {
   createGroup: ({ title, description }: { title: string; description: string }) => Promise<Group>;
   fetchMyGroups: () => Promise<void>;
-  sendInvites: (groupId: string, org: string) => Promise<void>;
+  sendInvites: (groupId: string, org: string) => Promise<boolean | undefined>;
   removeMembers: () => Promise<void>;
 }
 
@@ -71,15 +71,21 @@ export const useGroupsStore = create<GroupState & GroupActions>((set, get) => ({
     const contacts = await fetchContacts();
     if (!contacts || contacts.length === 0) return;
 
-    // this should be done for each contact
-    const invite = await apiSdk.createInvite(groupId, apiKey);
-    console.log("invite", invite, contacts[0]);
-    await sendInvite(
-      `This is your invite code: ${invite.code}, register via link https://secretevent-nextjs.vercel.app/join/${groupId}`,
-      org,
-      contacts[0].protectedDataAddress,
-    );
-    console.log("invite sent");
+    try {
+      // this should be done for each contact
+      const invite = await apiSdk.createInvite(groupId, apiKey);
+      console.log("invite", invite, contacts[0]);
+      await sendInvite(
+        `This is your invite code: ${invite.code}, register via link https://secretevent-nextjs.vercel.app/join/${groupId}`,
+        org,
+        contacts[0].protectedDataAddress,
+      );
+      console.log("invite sent");
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
   },
 
   removeMembers: async () => {

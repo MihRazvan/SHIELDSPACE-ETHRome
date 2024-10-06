@@ -43,7 +43,7 @@ export default function Event({ params }: { params: { event: string } }) {
         className="w-full h-full bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url('/images/bg-safe-link.png')" }}
       >
-        <div className="absolute top-0 right-0">
+        <div className="absolute top-5 left-14">
           <RainbowKitCustomConnectButton />
         </div>
         <div className="flex flex-col max-w-3xl mx-auto min-h-screen bg-[#FDFEFF] items-center p-4 justify-evenly">
