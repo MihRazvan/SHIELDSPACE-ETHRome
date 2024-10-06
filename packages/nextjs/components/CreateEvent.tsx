@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { ethers } from "ethers";
+import { useSwitchChain } from "wagmi";
+import { useChainId } from "wagmi";
 
 export const CreateEvent = () => {
   const [title, setTitle] = useState("");
@@ -11,6 +13,10 @@ export const CreateEvent = () => {
   const [ageRestricted, setAgeRestricted] = useState(false);
   const [buttonText, setButtonText] = useState("Encrypt Data"); // Initial button text
   const [isEncrypting, setIsEncrypting] = useState(false); // To disable button during encryption
+
+  const { switchChain } = useSwitchChain();
+
+  const chainId = useChainId();
 
   const handleEncrypt = async () => {
     if (!window.ethereum) {
@@ -44,6 +50,10 @@ export const CreateEvent = () => {
       };
       const fakeEncryptedData = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(JSON.stringify(eventData)));
       console.log("Fake Encrypted Data:", fakeEncryptedData);
+
+      if (chainId !== 11155111) {
+        switchChain({ chainId: 11155111 } as any);
+      }
 
       // Prepare the transaction
       const tx = {

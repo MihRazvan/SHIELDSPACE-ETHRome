@@ -1,4 +1,6 @@
+// import { useState } from "react";
 import Image from "next/image";
+import { Identity } from "@semaphore-protocol/identity";
 import { useJoinEvent } from "~~/hooks/useJoinEvent";
 
 export const SuccessJoinModal = ({
@@ -10,6 +12,8 @@ export const SuccessJoinModal = ({
   inviteCode: string;
   children: React.ReactNode;
 }) => {
+  // const [identity, setIdentity] = useState<Identity | null>(null);
+
   const handleClose = () => {
     const modal = document.getElementById("success_join_modal") as HTMLDialogElement;
     if (modal) {
@@ -21,7 +25,18 @@ export const SuccessJoinModal = ({
 
   const handleJoin = async (e: any) => {
     e.preventDefault();
-    await joinEvent(eventId, inviteCode);
+    const _identity = new Identity();
+    // setIdentity(_identity);
+
+    localStorage.setItem("i", _identity.export());
+
+    const identityString = localStorage.getItem("i");
+    console.log("identityString", identityString);
+
+    console.log("commitment", _identity.commitment.toString());
+
+    console.log("Your new Semaphore identity was just created 🎉");
+    await joinEvent(eventId, inviteCode, _identity.commitment);
     handleClose();
   };
 
